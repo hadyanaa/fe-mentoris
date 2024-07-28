@@ -8,11 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      screens:{
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
       },
+      colors:{
+        primary: '#4E73DF',
+        secondary: '#F8F9FC',
+        nav: '#1E293B',
+        gray: '#94A3B8',
+        blue: '#38BDF8',
+      }
     },
   },
   plugins: [],
