@@ -18,14 +18,14 @@ export default function RootLayout({
       <html lang="en">
          <body>
             <Header />        
-            <div>
+            <div className="flex flex-row">
                <Sidebar />
                <div className="flex flex-row w-full z-0 bg-secondary">
                   <div>
                   {children}
                   </div>
                </div>
-            </div>
+            </div>   
             <Footer />
          </body>
       </html>
