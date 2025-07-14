@@ -1,0 +1,22 @@
+[
+   {
+      "nama": "Super admin",
+      "role": "super",
+      "angkatan": 2016
+   },
+   {
+      "nama": "Admin",
+      "role": "admin",
+      "angkatan": 2017
+   },
+   {
+      "nama": "Hadyan Abdul Aziz",
+      "role": "mentor",
+      "angkatan": 2018
+   },
+   {
+      "nama": "Ahmad Syauqi",
+      "role": "mentee",
+      "angkatan": 2018
+   }
+]

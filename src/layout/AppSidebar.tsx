@@ -3,17 +3,12 @@ import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
 import {
-  BoxCubeIcon,
-  // CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
   PageIcon,
-  PieChartIcon,
-  PlugInIcon,
   TableIcon,
-  // UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -24,70 +19,86 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
-const navItems: NavItem[] = [
+const adminNav: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
     path: "/",
   },
-  // {
-  //   icon: <CalenderIcon />,
-  //   name: "Calendar",
-  //   path: "/calendar",
-  // },
-  // {
-  //   icon: <UserCircleIcon />,
-  //   name: "User Profile",
-  //   path: "/profile",
-  // },
   {
-    name: "Forms",
+    name: "Master Data",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
     subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
+      { name: "Data Pengguna", path: "/master/data-pengguna", pro: false },
+      { name: "Data Kelompok", path: "/master/data-kelompok", pro: false },
+      { name: "Data Berita", path: "/master/data-berita", pro: false },
+      { name: "Data Jenjang", path: "/master/data-jenjang", pro: false },
+      { name: "Data Angkatan", path: "/master/data-angkatan", pro: false }
     ],
+  },
+  {
+    name: "Assesment",
+    icon: <TableIcon />,
+    subItems: [
+      { name: "Tema", path: "/assesment/tema", pro: false },
+      { name: "Assesment Answer", path: "/assesment/answer", pro: false },
+      { name: "Assesment Questions", path: "/assesment/question", pro: false },
+    ],
+  },
+  {
+    icon: <GridIcon />,
+    name: "Kurikulum",
+    path: "/kurikulum",
+  },
+  {
+    name: "presensi",
+    icon: <PageIcon />,
+    path: "/presensi",
   },
 ];
-
-const othersItems: NavItem[] = [
+const mentorNav: NavItem[] = [
   {
-    icon: <PieChartIcon />,
-    name: "Charts",
+    icon: <GridIcon />,
+    name: "Dashboard",
+    path: "/",
+  },
+  {
+    name: "Assesment",
+    icon: <TableIcon />,
     subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
+      { name: "Tema", path: "/assesment/tema", pro: false },
+      { name: "Assesment Answer", path: "/assesment/answer", pro: false },
+      { name: "Assesment Questions", path: "/assesment/question", pro: false },
     ],
   },
   {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
+    icon: <GridIcon />,
+    name: "Kurikulum",
+    path: "/kurikulum",
+  },
+  {
+    name: "presensi",
+    icon: <PageIcon />,
+    path: "/presensi",
+  },
+];
+const menteeNav: NavItem[] = [
+  {
+    icon: <GridIcon />,
+    name: "Dashboard",
+    path: "/",
+  },
+  {
+    name: "Assesment",
+    icon: <TableIcon />,
     subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
+      { name: "Assesment Answer", path: "/assesment/answer", pro: false },
     ],
   },
   {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
+    name: "presensi",
+    icon: <PageIcon />,
+    path: "/presensi",
   },
 ];
 
@@ -112,8 +123,8 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+    ["main"].forEach((menuType) => {
+      const items = adminNav;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -282,6 +293,22 @@ const AppSidebar: React.FC = () => {
     </ul>
   );
 
+  // get dummy user
+  const [user, setUser] = useState<{
+    nama:string,
+    role: string,
+    angkatan: number
+  }[]>([]);
+  useEffect(() => {
+    fetch('/src/api-dummy/user.json')
+      .then(res => res.json())
+      .then(data => setUser(data))
+      .catch(err => console.error("Gagal mengambil data:", err));
+  }, []);
+
+  // ubah angka untuk mengubah sidebar: 0-1 admin, 2 untuk mentor, 3 untuk mentee 
+  let sampleUser = user[2]
+
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
@@ -363,24 +390,12 @@ const AppSidebar: React.FC = () => {
                   <HorizontaLDots className="size-6" />
                 )}
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(
+                sampleUser?.role === "super" || sampleUser?.role === "admin" ? adminNav :
+                sampleUser?.role === "mentor" ? mentorNav : menteeNav
+                , "main")}
             </div>
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
+
           </div>
         </nav>
         {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
