@@ -20,6 +20,10 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import KurikulumPage from "./pages/Kurikulum";
 import JenjangPage from "./pages/Jenjang";
+import SignInForm from "./components/auth/SignInForm";
+import PresensiIndex from "./services/Presensi";
+import KelompokAngkatanPage from "./pages/Kelompok/kelompok_angkatan";
+import DetailKelompokPage from "./pages/Presensi/DetailKelompok";
 
 export default function App() {
   return (
@@ -28,13 +32,16 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}
+          <Route index path="/" element={<SignInForm/>}/>
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Home />} />
 
             {/* Others Page */}
             <Route path="/kurikulum" element={<KurikulumPage />} />
             <Route path="/master/data-jenjang" element={<JenjangPage />} />
-
+            <Route path="/presensi" element={<PresensiIndex />} />
+            <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
+            <Route path="/presensi/kelompok/:id" element={< DetailKelompokPage />} />
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
