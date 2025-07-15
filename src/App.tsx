@@ -18,18 +18,23 @@ import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
+import KurikulumPage from "./pages/Kurikulum";
 
 export default function App() {
   return (
     <>
       <Router>
+        
         <ScrollToTop />
         <Routes>
+            <Route index path="/" element={<SignIn />} />
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+          
+            <Route index path="/dashboard" element={<Home />} />
 
             {/* Others Page */}
+            <Route path="/kurikulum" element={<KurikulumPage />} />
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />

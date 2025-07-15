@@ -24,7 +24,7 @@ const adminNav: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/",
+    path: "/dashboard",
   },
   {
     icon: <ListIcon />,
@@ -61,7 +61,7 @@ const mentorNav: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/",
+    path: "/dashboard",
   },
   {
     icon: <TableIcon />,
