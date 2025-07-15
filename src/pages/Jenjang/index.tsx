@@ -1,9 +1,7 @@
-// pages/jenjang/index.tsx
-
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ComponentCard from "../../components/common/ComponentCard";
 import PageMeta from "../../components/common/PageMeta";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne"; // Ganti nanti jika ada table khusus
+import JenjangTable from "../../services/Jenjang";// ganti table khusus
 
 export default function JenjangPage() {
   return (
@@ -15,8 +13,8 @@ export default function JenjangPage() {
       <PageBreadcrumb pageTitle="Jenjang" />
 
       <div className="space-y-6">
-        <ComponentCard title="Tabel Jenjang">
-          <BasicTableOne /> {/* Ganti nanti jika sudah punya komponen tabel khusus */}
+        <ComponentCard title="">
+          <JenjangTable />
         </ComponentCard>
       </div>
     </>
