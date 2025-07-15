@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router";
 // Assume these icons are imported from an icon library
 import {
   ChevronDownIcon,
+  DocsIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
@@ -26,8 +27,8 @@ const adminNav: NavItem[] = [
     path: "/",
   },
   {
-    name: "Master Data",
     icon: <ListIcon />,
+    name: "Master Data",
     subItems: [
       { name: "Data Pengguna", path: "/master/data-pengguna", pro: false },
       { name: "Data Kelompok", path: "/master/data-kelompok", pro: false },
@@ -37,8 +38,8 @@ const adminNav: NavItem[] = [
     ],
   },
   {
-    name: "Assesment",
     icon: <TableIcon />,
+    name: "Assesment",
     subItems: [
       { name: "Tema", path: "/assesment/tema", pro: false },
       { name: "Assesment Answer", path: "/assesment/answer", pro: false },
@@ -46,13 +47,13 @@ const adminNav: NavItem[] = [
     ],
   },
   {
-    icon: <GridIcon />,
+    icon: <PageIcon />,
     name: "Kurikulum",
     path: "/kurikulum",
   },
   {
-    name: "presensi",
-    icon: <PageIcon />,
+    icon: <DocsIcon />,
+    name: "Presensi",
     path: "/presensi",
   },
 ];
@@ -63,8 +64,8 @@ const mentorNav: NavItem[] = [
     path: "/",
   },
   {
-    name: "Assesment",
     icon: <TableIcon />,
+    name: "Assesment",
     subItems: [
       { name: "Tema", path: "/assesment/tema", pro: false },
       { name: "Assesment Answer", path: "/assesment/answer", pro: false },
@@ -72,13 +73,13 @@ const mentorNav: NavItem[] = [
     ],
   },
   {
-    icon: <GridIcon />,
+    icon: <PageIcon />,
     name: "Kurikulum",
     path: "/kurikulum",
   },
   {
-    name: "presensi",
-    icon: <PageIcon />,
+    icon: <DocsIcon />,
+    name: "Presensi",
     path: "/presensi",
   },
 ];
@@ -89,15 +90,15 @@ const menteeNav: NavItem[] = [
     path: "/",
   },
   {
-    name: "Assesment",
     icon: <TableIcon />,
+    name: "Assesment",
     subItems: [
       { name: "Assesment Answer", path: "/assesment/answer", pro: false },
     ],
   },
   {
-    name: "presensi",
-    icon: <PageIcon />,
+    icon: <DocsIcon />,
+    name: "Presensi",
     path: "/presensi",
   },
 ];
@@ -307,7 +308,7 @@ const AppSidebar: React.FC = () => {
   }, []);
 
   // ubah angka untuk mengubah sidebar: 0-1 admin, 2 untuk mentor, 3 untuk mentee 
-  let sampleUser = user[0]
+  let sampleUser = user[3]
 
   return (
     <aside
