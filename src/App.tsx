@@ -24,11 +24,14 @@ export default function App() {
   return (
     <>
       <Router>
+        
         <ScrollToTop />
         <Routes>
+            <Route index path="/" element={<SignIn />} />
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+          
+            <Route index path="/dashboard" element={<Home />} />
 
             {/* Others Page */}
             <Route path="/kurikulum" element={<KurikulumPage />} />
