@@ -37,7 +37,7 @@ export default function UserDropdown() {
     if (!token) {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-      window.location.href = "/";
+      window.location.href = "/login";
       return;
     }
 
@@ -49,13 +49,13 @@ export default function UserDropdown() {
     .then(() => {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-      window.location.href = "/";
+      window.location.href = "/login";
     })
     .catch((error) => {
       console.error("Logout gagal:", error);
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-      window.location.href = "/";
+      window.location.href = "/login";
     });
   }
 

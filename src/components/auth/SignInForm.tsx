@@ -27,15 +27,22 @@ export default function SignInForm() {
 
       const { token, user } = response.data.data;
 
-      // Simpan token dan user
+      // Simpan token dan user info ke localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", user.role);
 
-      // Set token default untuk semua permintaan axios
+      // Set token default ke axios
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      // Redirect ke dashboard
-      navigate("/dashboard");
+      // Redirect berdasarkan role
+      if (user.role === "super admin" || user.role === "admin") {
+        navigate("/dashboard");
+      } else if (user.role === "mentor" || user.role === "mentee") {
+        navigate("/");
+      } else {
+        setErrorMsg("Role tidak dikenali. Hubungi administrator.");
+      }
     } catch (err: any) {
       if (err.response?.status === 401) {
         setErrorMsg("Email atau password salah.");
@@ -50,7 +57,7 @@ export default function SignInForm() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side (Image) */}
-      <div className="w-1/2 bg-blue-100 flex flex-col items-center justify-center text-center px-6 py-10">
+      <div className="w-1/2 bg-blue-400 flex flex-col items-center justify-center text-center px-6 py-10">
         <img
           src="/images/logo/bkpk-w.png"
           alt="Login Illustration"
