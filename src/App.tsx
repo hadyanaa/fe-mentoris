@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import SignIn from "./pages/AuthPages/SignIn";
+// import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/UserProfiles";
@@ -19,41 +19,89 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import KurikulumPage from "./pages/Kurikulum";
+import JenjangPage from "./pages/Jenjang";
+import SignInForm from "./components/auth/SignInForm";
+import PresensiIndex from "./services/Presensi";
+import KelompokAngkatanPage from "./pages/Kelompok/kelompok_angkatan";
+import DetailKelompokPage from "./pages/Presensi/DetailKelompok";
+
+import RekapPresensiMentee from "./services/Presensi/RekapPresensiMentee";
+import PrivateRoutesByRole from "./services/PrivateRoute";
+import PresensiReviewkPage from "./pages/Presensi/PresensiReview";
+import ProtectedLoginRoute from "./services/ProtectedLogin";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import EditKelompokPage from "./services/Kelompok/editKelompokPage";
+import PenggunaPage from "./pages/Pengguna/PenggunaPage";
+import FormCreateUser from "./services/Pengguna/PenggunaCreate";
 
 export default function App() {
   return (
     <>
-      <Router>
+    <Router>
+  <ScrollToTop />
+  <Routes>
+    {/* PUBLIC */}
+   <Route
+  path="/login"
+  element={
+    <ProtectedLoginRoute>
+      <SignInForm />
+      </ProtectedLoginRoute>  
+  }
+/>
+    {/* <Route path="/signin" element={<SignIn />} /> */}
+    <Route path="/signup" element={<SignUp />} />
+    <Route path="*" element={<NotFound />} />
+
+    {/* PROTECTED LAYOUT */}
+    <Route element={<AppLayout />}>
+
+      {/* UNIVERSAL - semua yang login bisa akses */}
+      <Route path="/profile" element={<UserProfiles />} />
+      <Route path="/calendar" element={<Calendar />} />
+      <Route path="/blank" element={<Blank />} />
+
+      {/* MENTEE ONLY */}
+      <Route element={<PrivateRoutesByRole allowedRoles={["mentee", "mentor", "admin", "super admin"]} />}>
+       <Route path="/" element={<Home />} />
+        <Route path="/rekap-presensi-mentee" element={<RekapPresensiMentee />} />
+         <Route path="/presensi" element={<PresensiIndex />} />
+      </Route>
+
+      {/* MENTOR + ADMIN + SUPER ADMIN */}
+      <Route element={<PrivateRoutesByRole allowedRoles={["mentor", "admin", "super admin"]} />}>
         
-        <ScrollToTop />
-        <Routes>
-            <Route index path="/" element={<SignIn />} />
-          {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
-          
-            <Route index path="/dashboard" element={<Home />} />
+        <Route path="/kurikulum" element={<KurikulumPage />} />
+        <Route path="/presensi/preview/:id" element={<PresensiReviewkPage />} />
+        <Route path="/presensi/kelompok/:id" element={<DetailKelompokPage />} />
+        <Route path="/pengguna/tambah" element={<FormCreateUser />} />
 
-            {/* Others Page */}
-            <Route path="/kurikulum" element={<KurikulumPage />} />
-            <Route path="/profile" element={<UserProfiles />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/blank" element={<Blank />} />
+      </Route>
 
-            {/* Forms */}
-            <Route path="/form-elements" element={<FormElements />} />
+      {/* ADMIN + SUPER ADMIN ONLY */}
+      <Route element={<PrivateRoutesByRole allowedRoles={["admin", "super admin"]} />}>
+      <Route path="/master/data-pengguna" element={<PenggunaPage/>}></Route>
+       <Route path="/dashboard" element={<Dashboard/>} />
+       <Route path="/kelompok/edit/:id" element={<EditKelompokPage />} />
+        <Route path="/master/data-jenjang" element={<JenjangPage />} />
+        <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
+      
+      </Route>
 
-            {/* Tables */}
-            <Route path="/basic-tables" element={<BasicTables />} />
-          </Route>
-
-          {/* Auth Layout */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-
-          {/* Fallback Route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
+      {/* Demo pages for all roles */}
+      <Route path="/form-elements" element={<FormElements />} />
+      <Route path="/basic-tables" element={<BasicTables />} />
+      <Route path="/alerts" element={<Alerts />} />
+      <Route path="/avatars" element={<Avatars />} />
+      <Route path="/badge" element={<Badges />} />
+      <Route path="/buttons" element={<Buttons />} />
+      <Route path="/images" element={<Images />} />
+      <Route path="/videos" element={<Videos />} />
+      <Route path="/line-chart" element={<LineChart />} />
+      <Route path="/bar-chart" element={<BarChart />} />
+    </Route>
+  </Routes>
+</Router>
     </>
   );
 }
