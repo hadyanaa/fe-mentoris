@@ -308,7 +308,7 @@ const AppSidebar: React.FC = () => {
   }, []);
 
   // ubah angka untuk mengubah sidebar: 0-1 admin, 2 untuk mentor, 3 untuk mentee 
-  let sampleUser = user[3]
+  let sampleUser = user[0]
 
   return (
     <aside
