@@ -38,6 +38,7 @@ import FormEditJenjang from "./pages/Jenjang/EditJenjang";
 import BeritaPrimeTable from "./pages/Berita";
 import FormCreateBerita from "./pages/Berita/TambahBerita";
 import FormEditBerita from "./pages/Berita/EditBerita";
+import BeritaPage from "./pages/Berita";
 
 export default function App() {
   return (
@@ -90,7 +91,7 @@ export default function App() {
       <Route path="/master/data-pengguna" element={<PenggunaPage/>}></Route>
        <Route path="/dashboard" element={<Dashboard/>} />
        <Route path="/kelompok/edit/:id" element={<EditKelompokPage />} />
-        <Route path="/master/data-berita" element={<BeritaPrimeTable />} />
+        <Route path="/master/data-berita" element={<BeritaPage />} />
         <Route path="/master/data-berita/tambah" element={<FormCreateBerita />} />
         <Route path="/master/data-berita/edit/:beritaId" element={<FormEditBerita />} />
         <Route path="/master/data-jenjang" element={<JenjangPage />} />

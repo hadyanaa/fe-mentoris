@@ -1,107 +1,22 @@
-import 'primereact/resources/themes/lara-light-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import ComponentCard from "../../components/common/ComponentCard";
+import PageMeta from "../../components/common/PageMeta";
+import BeritaPrimeTable from "../../services/Berita";
 
-import { useEffect, useState } from "react";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Button } from 'primereact/button';
-import { useNavigate } from "react-router-dom";
-import { useBeritaStore } from '../../store/useBeritaStore';
-
-export default function BeritaPrimeTable() {
-  const [globalFilter, setGlobalFilter] = useState<string>("");
-  const { data, error, loading, fetchBerita, deleteBerita } = useBeritaStore()
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchBerita()
-  }, [])
-
-  const handleUpdate = (row: any) => {
-    // Navigasi ke form edit
-    navigate(`/master/data-berita/edit/${row.id}`);
-  };
-
-  const handleDelete = async (id: any) => {
-    if (confirm('Yakin ingin menghapus data ini?')) {
-      try {
-        await deleteBerita(id); // fungsi dari zustand
-        fetchBerita(); // refresh data
-        alert('Data berhasil dihapus');
-      } catch (err) {
-        console.error(err);
-        alert('Gagal menghapus data');
-      }
-    }
-  };
-
+export default function BeritaPage() {
   return (
-    <div className="card p-4">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="text-lg font-bold">Daftar Berita</h2>
-        <Button
-          label="Tambah Berita"
-          icon="pi pi-plus"
-          className="p-button-sm p-button-primary"
-          onClick={() => navigate("/master/data-berita/tambah")}
-        />
-      </div>
-
-      {error && (
-        <div className="mb-3 text-red-600 bg-red-100 p-2 rounded">{error}</div>
-      )}
-
-      <input
-        type="text"
-        placeholder="Cari Berita..."
-        className="mb-3 p-2 border rounded w-full"
-        onChange={(e) => setGlobalFilter(e.target.value)}
+    <>
+      <PageMeta
+        title="Halaman Berita"
+        description="Menampilkan data jenjang pendidikan"
       />
+      <PageBreadcrumb pageTitle="Berita" />
 
-      <DataTable
-        value={data}
-        paginator
-        rows={10}
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        globalFilter={globalFilter}
-        emptyMessage="Data tidak ditemukan"
-        responsiveLayout="scroll"
-        showGridlines
-        loading={loading}
-      >
-        <Column
-          header="No"
-          body={(_rowData, { rowIndex }) => rowIndex + 1}
-          style={{ width: '60px' }}
-        />
-        <Column field="judul" header="Judul" />
-        <Column field="sumber" header="Sumber" />
-        <Column field="konten_berita" header="Konten Berita" />
-        <Column 
-          header="Aksi"
-          body={(rowData) => (
-            <div className="flex gap-2">
-              <Button
-                onClick={() => handleUpdate(rowData)}
-                severity='info'
-                size='small'
-              >
-                Update
-              </Button>
-              <Button
-                onClick={() => handleDelete(rowData.id)}
-                severity='danger'
-                size='small'
-              >
-                Delete
-              </Button>
-            </div>
-          )}
-          style={{ width: '150px' }}
-        />
-      </DataTable>
-    </div>
+      <div className="space-y-6">
+        <ComponentCard title="">
+          <BeritaPrimeTable />
+        </ComponentCard>
+      </div>
+    </>
   );
 }
