@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios'
+import { useGlobalStore } from './useGlobalStore'
 
 export type Jenjang = {
   id: number
@@ -24,8 +25,9 @@ export const useJenjangStore = create<JenjangStore>((set) => ({
   error: null,
 
   fetchJenjang: async () => {
-     set({ loading: true, error: null })
-     const token = localStorage.getItem("token");
+    set({ loading: true, error: null })
+    const token = useGlobalStore.getState().token;
+    console.log(token);
 
     if (!token) {
       set({ error: "Token tidak tersedia. Silakan login terlebih dahulu."});
@@ -46,8 +48,19 @@ export const useJenjangStore = create<JenjangStore>((set) => ({
   },
 
   addJenjang: async (payload) => {
+    set({ loading: true, error: null })
+    const token = useGlobalStore.getState().token;
+
+    if (!token) {
+      set({ error: "Token tidak tersedia. Silakan login terlebih dahulu."});
+      return;
+    }
     try {
-      const res = await axios.post('http://localhost:8000/api/jenjang', payload)
+      const res = await axios.post('http://localhost:8000/api/jenjang', payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
       set((state) => ({ data: [...state.data, res.data] }))
     } catch (err) {
       set({ error: 'Gagal menambah data jenjang' })
@@ -68,8 +81,16 @@ export const useJenjangStore = create<JenjangStore>((set) => ({
   },
 
   deleteJenjang: async (id) => {
+    const token = useGlobalStore.getState().token;
+    if (!token) {
+      set({ error: "Token tidak tersedia. Silakan login terlebih dahulu."});
+      return;
+    }
     try {
-      await axios.delete(`http://localhost:8000/api/jenjang/${id}`)
+      await axios.delete(`http://localhost:8000/api/jenjang/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },})
       set((state) => ({
         data: state.data.filter((item) => item.id !== id),
       }))

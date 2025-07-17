@@ -5,7 +5,8 @@ import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
-import Button from "../ui/button/Button";
+import { useGlobalStore } from "../../store/useGlobalStore";
+import { Button } from "primereact/button";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +35,9 @@ export default function SignInForm() {
 
       // Set token default ke axios
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      
+      // Simpan ke global store Zustand
+      useGlobalStore.getState().setToken(token);
 
       // Redirect berdasarkan role
       if (user.role === "super admin" || user.role === "admin") {
@@ -127,7 +131,7 @@ export default function SignInForm() {
             </div>
 
             <Button type="submit" className="w-full">
-              Masuk
+              <p className="text-center w-full">Masuk</p>
             </Button>
           </form>
 

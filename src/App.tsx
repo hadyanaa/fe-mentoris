@@ -33,6 +33,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import EditKelompokPage from "./services/Kelompok/editKelompokPage";
 import PenggunaPage from "./pages/Pengguna/PenggunaPage";
 import FormCreateUser from "./services/Pengguna/PenggunaCreate";
+import FormCreateJenjang from "./pages/Jenjang/TambahJenjang";
 
 export default function App() {
   return (
@@ -84,6 +85,7 @@ export default function App() {
        <Route path="/dashboard" element={<Dashboard/>} />
        <Route path="/kelompok/edit/:id" element={<EditKelompokPage />} />
         <Route path="/master/data-jenjang" element={<JenjangPage />} />
+        <Route path="/master/data-jenjang/tambah" element={<FormCreateJenjang />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
       
       </Route>
