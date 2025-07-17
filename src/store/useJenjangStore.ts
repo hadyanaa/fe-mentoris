@@ -14,8 +14,9 @@ type JenjangStore = {
   error: string | null
 
   fetchJenjang: () => Promise<void>
+  fetchJenjangById: (id:any) => Promise<void>
   addJenjang: (payload: Omit<Jenjang, 'id'>) => Promise<void>
-  updateJenjang: (id: number, payload: Partial<Jenjang>) => Promise<void>
+  updateJenjang: (id: number|string, payload: Partial<Jenjang>) => Promise<void>
   deleteJenjang: (id: number) => Promise<void>
 }
 
@@ -47,6 +48,25 @@ export const useJenjangStore = create<JenjangStore>((set) => ({
     }
   },
 
+  fetchJenjangById: async (id: string | number) => {
+    const token = useGlobalStore.getState().token;
+    if (!token) {
+      set({ error: "Token tidak tersedia. Silakan login terlebih dahulu."});
+      return;
+    }
+    try {
+      const res = await axios.get(`http://localhost:8000/api/jenjang/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      return res.data
+    } catch (err) {
+      console.error("Gagal ambil jenjang by id", err)
+      return null
+    }
+  },
+
   addJenjang: async (payload) => {
     set({ loading: true, error: null })
     const token = useGlobalStore.getState().token;
@@ -68,8 +88,19 @@ export const useJenjangStore = create<JenjangStore>((set) => ({
   },
 
   updateJenjang: async (id, payload) => {
+    set({ loading: true, error: null })
+    const token = useGlobalStore.getState().token;
+
+    if (!token) {
+      set({ error: "Token tidak tersedia. Silakan login terlebih dahulu."});
+      return;
+    }
     try {
-      await axios.put(`http://localhost:8000/api/jenjang/${id}`, payload)
+      await axios.put(`http://localhost:8000/api/jenjang/${id}`, payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
       set((state) => ({
         data: state.data.map((item) =>
           item.id === id ? { ...item, ...payload } : item
