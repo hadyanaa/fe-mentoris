@@ -5,45 +5,23 @@ import 'primeicons/primeicons.css';
 import { useEffect, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import axios from "axios";
+// import axios from "axios";
+import { useJenjangStore } from '../../store/useJenjangStore';
 
-interface Jenjang {
-  id: number;
-  nama_jenjang: string;
-  deskripsi: string;
-}
+// interface Jenjang {
+//   id: number;
+//   nama_jenjang: string;
+//   deskripsi: string;
+// }
 
 export default function JenjangPrimeTable() {
-  const [jenjang, setJenjang] = useState<Jenjang[]>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
-  const [error, setError] = useState<string>("");
+
+  const { data, error, loading, fetchJenjang } = useJenjangStore()
 
   useEffect(() => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    setError("Token tidak tersedia. Silakan login terlebih dahulu.");
-    return;
-  }
-
-  axios.get("http://localhost:8000/api/jenjang", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      if (res.data.success) {
-        setJenjang(res.data.data);
-      } else {
-        setError("Gagal memuat data jenjang dari server.");
-      }
-    })
-    .catch((err) => {
-      console.error("Gagal ambil data jenjang:", err);
-      setError("Terjadi kesalahan saat mengambil data jenjang.");
-    });
-}, []);
-
+    fetchJenjang()
+  }, [])
 
   return (
     <div className="card p-4">
@@ -61,7 +39,7 @@ export default function JenjangPrimeTable() {
       />
 
       <DataTable
-        value={jenjang}
+        value={data}
         paginator
         rows={10}
         rowsPerPageOptions={[10, 25, 50, 100]}
@@ -69,6 +47,7 @@ export default function JenjangPrimeTable() {
         emptyMessage="Data tidak ditemukan"
         responsiveLayout="scroll"
         showGridlines
+        loading={loading}
       >
         <Column
           header="No"
