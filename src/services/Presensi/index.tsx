@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"; // gunakan untuk notifikasi
 
 interface Angkatan {
   id: number;
@@ -49,14 +50,61 @@ export default function PresensiIndex() {
     navigate(`/kelompok/angkatan/${angkatanId}`);
   };
 
+  // Ganti nama fungsi dan tipe file yang diizinkan
+const handleImportExcel = async (e: ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file); // key 'file' disesuaikan dengan backend
+
+  try {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    };
+
+    const response = await axios.post(
+      "http://localhost:8000/api/import-pengguna",
+      formData,
+      { headers }
+    );
+
+    Swal.fire("Berhasil", response.data.message || "Import berhasil", "success");
+  } catch (error: any) {
+    console.error("Gagal import:", error);
+    Swal.fire("Gagal", "Import gagal. Pastikan format file Excel/CSV valid.", "error");
+  }
+};
+
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold text-blue-700 mb-6">Daftar Presensi</h2>
 
-      {/* ADMIN/SUPER ADMIN */}
       {(role === "super admin" || role === "admin") && (
         <>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Pilih Angkatan</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Pilih Angkatan</h3>
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate("/kelompok/tambah")}
+                className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
+              >
+                + Tambah Kelompok
+              </button>
+              <label className="cursor-pointer bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition">
+                📁 Import Excel
+              <input
+                  type="file"
+                  accept=".xlsx,.xls,.csv"
+                  onChange={handleImportExcel} // gunakan fungsi baru
+                  hidden
+                />
+              </label>
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {angkatanList.map((angkatan) => (
               <div

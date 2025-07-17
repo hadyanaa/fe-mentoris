@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2"; // 
 
 interface Angkatan {
   id: number;
@@ -17,7 +20,6 @@ export default function FormCreateUser() {
   const navigate = useNavigate();
   const [angkatanList, setAngkatanList] = useState<Angkatan[]>([]);
   const [jenjangList, setJenjangList] = useState<Jenjang[]>([]);
-  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     nama_lengkap: "",
@@ -25,8 +27,8 @@ export default function FormCreateUser() {
     password: "",
     role: "",
     tempat_lahir: "",
-    tgl_lahir: "",
-    pertama_mentoring: "",
+    tgl_lahir: null as Date | null,
+    pertama_mentoring: null as Date | null,
     jenis_kelamin: "",
     alamat_asal: "",
     alamat_domisili: "",
@@ -45,14 +47,16 @@ export default function FormCreateUser() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setAngkatanList(res.data.data))
-      .catch(() => console.error("Gagal mengambil data angkatan"));
+      .catch(() =>
+        Swal.fire("Gagal", "Gagal mengambil data angkatan", "error")
+      );
 
     axios
       .get("http://localhost:8000/api/jenjang", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setJenjangList(res.data.data))
-      .catch(() => console.error("Gagal mengambil data jenjang"));
+      .catch(() => Swal.fire("Gagal", "Gagal mengambil data jenjang", "error"));
   }, []);
 
   const handleChange = (
@@ -62,28 +66,42 @@ export default function FormCreateUser() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleDateChange = (date: Date | null, name: string) => {
+    setFormData((prev) => ({ ...prev, [name]: date }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
+    const payload = {
+      ...formData,
+      tgl_lahir: formData.tgl_lahir
+        ? formData.tgl_lahir.toISOString().split("T")[0]
+        : "",
+      pertama_mentoring: formData.pertama_mentoring
+        ? formData.pertama_mentoring.toISOString().split("T")[0]
+        : "",
+    };
+
     axios
-      .post("http://localhost:8000/api/pengguna", formData, {
+      .post("http://localhost:8000/api/pengguna", payload, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        alert("Pengguna berhasil ditambahkan");
-        navigate(-1);
+        Swal.fire("Berhasil", "Pengguna berhasil ditambahkan", "success").then(
+          () => navigate(-1)
+        );
       })
       .catch((err) => {
         console.error("Gagal menyimpan:", err);
-        setError("Terjadi kesalahan saat menyimpan data.");
+        Swal.fire("Error", "Terjadi kesalahan saat menyimpan data", "error");
       });
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
       <h2 className="text-xl font-bold mb-4">Tambah Pengguna</h2>
-      {error && <div className="text-red-600 mb-4">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
@@ -93,8 +111,8 @@ export default function FormCreateUser() {
             placeholder="Nama Lengkap"
             value={formData.nama_lengkap}
             onChange={handleChange}
-            required
             className="border p-2 rounded"
+            required
           />
 
           <input
@@ -103,8 +121,8 @@ export default function FormCreateUser() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            required
             className="border p-2 rounded"
+            required
           />
 
           <input
@@ -113,8 +131,8 @@ export default function FormCreateUser() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            required
             className="border p-2 rounded"
+            required
           />
 
           <input
@@ -123,8 +141,8 @@ export default function FormCreateUser() {
             placeholder="Role (admin/mentor/mentee)"
             value={formData.role}
             onChange={handleChange}
-            required
             className="border p-2 rounded"
+            required
           />
 
           <input
@@ -136,28 +154,28 @@ export default function FormCreateUser() {
             className="border p-2 rounded"
           />
 
-          <input
-            type="date"
-            name="tgl_lahir"
-            value={formData.tgl_lahir}
-            onChange={handleChange}
-            className="border p-2 rounded"
+          <DatePicker
+            selected={formData.tgl_lahir}
+            onChange={(date) => handleDateChange(date, "tgl_lahir")}
+            placeholderText="Tanggal Lahir"
+            dateFormat="yyyy-MM-dd"
+            className="border p-2 rounded w-full"
           />
 
-          <input
-            type="date"
-            name="pertama_mentoring"
-            value={formData.pertama_mentoring}
-            onChange={handleChange}
-            className="border p-2 rounded"
+          <DatePicker
+            selected={formData.pertama_mentoring}
+            onChange={(date) => handleDateChange(date, "pertama_mentoring")}
+            placeholderText="Pertama Mentoring"
+            dateFormat="yyyy-MM-dd"
+            className="border p-2 rounded w-full"
           />
 
           <select
             name="jenis_kelamin"
             value={formData.jenis_kelamin}
             onChange={handleChange}
-            required
             className="border p-2 rounded"
+            required
           >
             <option value="">Pilih Jenis Kelamin</option>
             <option value="L">Laki-laki</option>

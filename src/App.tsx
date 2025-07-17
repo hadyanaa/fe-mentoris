@@ -33,6 +33,11 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import EditKelompokPage from "./services/Kelompok/editKelompokPage";
 import PenggunaPage from "./pages/Pengguna/PenggunaPage";
 import FormCreateUser from "./services/Pengguna/PenggunaCreate";
+import EditPresensiPage from "./services/Presensi/EditPresensi";
+import DetailPresensi from "./services/Presensi/DetailPresensi";
+import FormTambahKelompok from "./services/Kelompok/CreateKelompok";
+import FormTambahKelompokPengguna from "./services/Kelompok/CreateKelompokPengguna";
+import PindahKelompokMentee from "./services/Kelompok/PindahKelompok";
 
 export default function App() {
   return (
@@ -66,6 +71,8 @@ export default function App() {
        <Route path="/" element={<Home />} />
         <Route path="/rekap-presensi-mentee" element={<RekapPresensiMentee />} />
          <Route path="/presensi" element={<PresensiIndex />} />
+        <Route path="/presensi/detail" element={<DetailPresensi />} />
+
       </Route>
 
       {/* MENTOR + ADMIN + SUPER ADMIN */}
@@ -75,6 +82,8 @@ export default function App() {
         <Route path="/presensi/preview/:id" element={<PresensiReviewkPage />} />
         <Route path="/presensi/kelompok/:id" element={<DetailKelompokPage />} />
         <Route path="/pengguna/tambah" element={<FormCreateUser />} />
+        <Route path="/presensi/edit/:id" element={<EditPresensiPage />} />
+
 
       </Route>
 
@@ -85,7 +94,11 @@ export default function App() {
        <Route path="/kelompok/edit/:id" element={<EditKelompokPage />} />
         <Route path="/master/data-jenjang" element={<JenjangPage />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
-      
+      <Route path="/kelompok/tambah" element={<FormTambahKelompok />} />
+      <Route path="/kelompok-pengguna/:id" element={<FormTambahKelompokPengguna />} />
+      <Route path="/kelompok/:id/kelola-anggota" element={<PindahKelompokMentee />} />
+
+
       </Route>
 
       {/* Demo pages for all roles */}

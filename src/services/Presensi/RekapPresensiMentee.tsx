@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface MateriItem {
   materi: string;
   tanggal: string;
+  jenis_pertemuan: string;
 }
+
 interface RekapData {
   nama_lengkap: string;
   mentor: string;
@@ -12,13 +15,14 @@ interface RekapData {
   jumlah_sakit: number;
   jumlah_alfa: number;
   jumlah_izin: number;
-materi_disampaikan: MateriItem[]; 
+  materi_disampaikan: MateriItem[];
 }
 
 export default function RekapPresensiMentee() {
   const [rekap, setRekap] = useState<RekapData | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRekap = async () => {
@@ -49,7 +53,7 @@ export default function RekapPresensiMentee() {
   if (!rekap) return <p>Tidak ada data rekap presensi.</p>;
 
   return (
-    <div className="p-6 bg-white rounded shadow-lg max-w-4xl mx-auto">
+    <div className="p-6 bg-white rounded shadow-lg max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold text-blue-700 mb-6">Rekap Presensi Mentee</h2>
 
       {/* Informasi Personal dan Rekap */}
@@ -84,26 +88,41 @@ export default function RekapPresensiMentee() {
       <div className="mt-8">
         <h3 className="text-lg font-semibold mb-4 text-gray-700">Materi yang Sudah Disampaikan</h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gray-200 text-left">
               <tr>
                 <th className="py-2 px-4 border-b">No</th>
                 <th className="py-2 px-4 border-b">Materi</th>
                 <th className="py-2 px-4 border-b">Tanggal Pelaksanaan</th>
-                
+                <th className="py-2 px-4 border-b">Jenis Pertemuan</th>
+                <th className="py-2 px-4 border-b">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {rekap.materi_disampaikan.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b">{index + 1}</td>
-                 <td className="py-2 px-4 border-b">{item.materi}</td>
-                <td className="py-2 px-4 border-b">{new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
-                </tr>
-              ))}
-              {rekap.materi_disampaikan.map.length === 0 && (
+              {rekap.materi_disampaikan.length > 0 ? (
+                rekap.materi_disampaikan.map((item, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="py-2 px-4 border-b">{index + 1}</td>
+                    <td className="py-2 px-4 border-b">{item.materi}</td>
+                    <td className="py-2 px-4 border-b">
+                      {new Date(item.tanggal).toLocaleDateString("id-ID")}
+                    </td>
+                    <td className="py-2 px-4 border-b">{item.jenis_pertemuan}</td>
+                    <td className="py-2 px-4 border-b">
+                      <button
+                        onClick={() =>
+                          navigate(`/presensi/detail?tanggal=${item.tanggal}`)
+                        }
+                        className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 text-xs"
+                      >
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
-                  <td colSpan={2} className="text-center py-4 text-gray-500">
+                  <td colSpan={5} className="text-center py-4 text-gray-500">
                     Belum ada materi yang disampaikan
                   </td>
                 </tr>
