@@ -3,7 +3,7 @@
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ComponentCard from "../../components/common/ComponentCard";
 import PageMeta from "../../components/common/PageMeta";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne";
+import KurikulumPrimeTable from "../../services/Kurikulum";
 
 export default function KurikulumPage() {
   return (
@@ -16,7 +16,7 @@ export default function KurikulumPage() {
 
       <div className="space-y-6">
         <ComponentCard title="Tabel Kurikulum">
-          <BasicTableOne />
+          <KurikulumPrimeTable />
         </ComponentCard>
       </div>
     </>
