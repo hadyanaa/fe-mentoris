@@ -39,6 +39,9 @@ import BeritaPrimeTable from "./pages/Berita";
 import FormCreateBerita from "./pages/Berita/TambahBerita";
 import FormEditBerita from "./pages/Berita/EditBerita";
 import BeritaPage from "./pages/Berita";
+import AngkatanPage from "./pages/Angkatan";
+import FormCreateAngkatan from "./pages/Angkatan/TambahAngkatan";
+import FormEditAngkatan from "./pages/Angkatan/EditAngkatan";
 
 export default function App() {
   return (
@@ -97,6 +100,9 @@ export default function App() {
         <Route path="/master/data-jenjang" element={<JenjangPage />} />
         <Route path="/master/data-jenjang/tambah" element={<FormCreateJenjang />} />
         <Route path="/master/data-jenjang/edit/:jenjangId" element={<FormEditJenjang />} />
+        <Route path="/master/data-angkatan" element={<AngkatanPage />} />
+        <Route path="/master/data-angkatan/tambah" element={<FormCreateAngkatan />} />
+        <Route path="/master/data-angkatan/edit/:angkatanId" element={<FormEditAngkatan />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
       </Route>
 

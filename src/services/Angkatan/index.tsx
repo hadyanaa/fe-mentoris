@@ -7,28 +7,28 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from 'primereact/button';
 import { useNavigate } from "react-router-dom";
-import { useBeritaStore } from '../../store/useBeritaStore';
+import { useAngkatanStore } from '../../store/useAngkatanStore';
 
-export default function BeritaPrimeTable() {
+export default function AngkatanPrimeTable() {
   const [globalFilter, setGlobalFilter] = useState<string>("");
-  const { data, error, loading, fetchBerita, deleteBerita } = useBeritaStore()
+  const { data, error, loading, fetchAngkatan, deleteAngkatan } = useAngkatanStore()
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBerita()
+    fetchAngkatan()
   }, [])
 
   const handleUpdate = (row: any) => {
     // Navigasi ke form edit
-    navigate(`/master/data-berita/edit/${row.id}`);
+    navigate(`/master/data-angkatan/edit/${row.id}`);
   };
 
   const handleDelete = async (id: any) => {
     if (confirm('Yakin ingin menghapus data ini?')) {
       try {
-        await deleteBerita(id); // fungsi dari zustand
-        fetchBerita(); // refresh data
+        await deleteAngkatan(id); // fungsi dari zustand
+        fetchAngkatan(); // refresh data
         alert('Data berhasil dihapus');
       } catch (err) {
         console.error(err);
@@ -40,12 +40,12 @@ export default function BeritaPrimeTable() {
   return (
     <div className="card p-4">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-lg font-bold dark:text-white">Daftar Berita</h2>
+        <h2 className="text-lg font-bold dark:text-white">Daftar Angkatan</h2>
         <Button
-          label="Tambah Berita"
+          label="Tambah Angkatan"
           icon="pi pi-plus"
           className="p-button-sm p-button-primary"
-          onClick={() => navigate("/master/data-berita/tambah")}
+          onClick={() => navigate("/master/data-angkatan/tambah")}
         />
       </div>
 
@@ -55,7 +55,7 @@ export default function BeritaPrimeTable() {
 
       <input
         type="text"
-        placeholder="Cari Berita..."
+        placeholder="Cari Angkatan..."
         className="mb-3 p-2 border rounded w-full"
         onChange={(e) => setGlobalFilter(e.target.value)}
       />
@@ -76,9 +76,7 @@ export default function BeritaPrimeTable() {
           body={(_rowData, { rowIndex }) => rowIndex + 1}
           style={{ width: '60px' }}
         />
-        <Column field="judul" header="Judul" />
-        <Column field="sumber" header="Sumber" />
-        <Column field="konten_berita" header="Konten Berita" />
+        <Column field="nama" header="Judul" />
         <Column 
           header="Aksi"
           body={(rowData) => (
