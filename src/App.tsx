@@ -35,6 +35,9 @@ import PenggunaPage from "./pages/Pengguna/PenggunaPage";
 import FormCreateUser from "./services/Pengguna/PenggunaCreate";
 import FormCreateJenjang from "./pages/Jenjang/TambahJenjang";
 import FormEditJenjang from "./pages/Jenjang/EditJenjang";
+import BeritaPrimeTable from "./pages/Berita";
+import FormCreateBerita from "./pages/Berita/TambahBerita";
+import FormEditBerita from "./pages/Berita/EditBerita";
 
 export default function App() {
   return (
@@ -65,14 +68,16 @@ export default function App() {
 
       {/* MENTEE ONLY */}
       <Route element={<PrivateRoutesByRole allowedRoles={["mentee", "mentor", "admin", "super admin"]} />}>
-       <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/rekap-presensi-mentee" element={<RekapPresensiMentee />} />
-         <Route path="/presensi" element={<PresensiIndex />} />
+        <Route path="/presensi" element={<PresensiIndex />} />
+        <Route path="/berita" element={<BeritaPrimeTable />} />
+        <Route path="/berita/:beritaId" element={<KelompokAngkatanPage />} />
       </Route>
 
       {/* MENTOR + ADMIN + SUPER ADMIN */}
       <Route element={<PrivateRoutesByRole allowedRoles={["mentor", "admin", "super admin"]} />}>
-        
+        <Route path="/berita" element={<BeritaPrimeTable />} />
         <Route path="/kurikulum" element={<KurikulumPage />} />
         <Route path="/presensi/preview/:id" element={<PresensiReviewkPage />} />
         <Route path="/presensi/kelompok/:id" element={<DetailKelompokPage />} />
@@ -85,11 +90,13 @@ export default function App() {
       <Route path="/master/data-pengguna" element={<PenggunaPage/>}></Route>
        <Route path="/dashboard" element={<Dashboard/>} />
        <Route path="/kelompok/edit/:id" element={<EditKelompokPage />} />
+        <Route path="/master/data-berita" element={<BeritaPrimeTable />} />
+        <Route path="/master/data-berita/tambah" element={<FormCreateBerita />} />
+        <Route path="/master/data-berita/edit/:beritaId" element={<FormEditBerita />} />
         <Route path="/master/data-jenjang" element={<JenjangPage />} />
         <Route path="/master/data-jenjang/tambah" element={<FormCreateJenjang />} />
         <Route path="/master/data-jenjang/edit/:jenjangId" element={<FormEditJenjang />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
-      
       </Route>
 
       {/* Demo pages for all roles */}
