@@ -46,6 +46,11 @@ import FormCreateKurikulum from "./pages/Kurikulum/TambahKurikulum";
 import TemaPage from "./pages/Tema";
 import FormCreateTema from "./pages/Tema/TambahTema";
 import FormEditTema from "./pages/Tema/EditTema";
+import EditPresensiPage from "./services/Presensi/EditPresensi";
+import DetailPresensi from "./services/Presensi/DetailPresensi";
+import FormTambahKelompok from "./services/Kelompok/CreateKelompok";
+import FormTambahKelompokPengguna from "./services/Kelompok/CreateKelompokPengguna";
+import PindahKelompokMentee from "./services/Kelompok/PindahKelompok";
 
 export default function App() {
   return (
@@ -81,6 +86,8 @@ export default function App() {
         <Route path="/presensi" element={<PresensiIndex />} />
         <Route path="/berita" element={<BeritaPrimeTable />} />
         <Route path="/berita/:beritaId" element={<KelompokAngkatanPage />} />
+        <Route path="/presensi/detail" element={<DetailPresensi />} />
+
       </Route>
 
       {/* MENTOR + ADMIN + SUPER ADMIN */}
@@ -90,6 +97,8 @@ export default function App() {
         <Route path="/presensi/preview/:id" element={<PresensiReviewkPage />} />
         <Route path="/presensi/kelompok/:id" element={<DetailKelompokPage />} />
         <Route path="/pengguna/tambah" element={<FormCreateUser />} />
+        <Route path="/presensi/edit/:id" element={<EditPresensiPage />} />
+
 
       </Route>
 
@@ -108,6 +117,11 @@ export default function App() {
         <Route path="/master/data-angkatan/tambah" element={<FormCreateAngkatan />} />
         <Route path="/master/data-angkatan/edit/:angkatanId" element={<FormEditAngkatan />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
+      <Route path="/kelompok/tambah" element={<FormTambahKelompok />} />
+      <Route path="/kelompok-pengguna/:id" element={<FormTambahKelompokPengguna />} />
+      <Route path="/kelompok/:id/kelola-anggota" element={<PindahKelompokMentee />} />
+
+
         <Route path="/assesment/tema" element={<TemaPage />} />
         <Route path="/assesment/tema/tambah" element={<FormCreateTema />} />
         <Route path="/assesment/tema/edit/:temaId" element={<FormEditTema />} />

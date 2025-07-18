@@ -23,11 +23,12 @@ export default function KelompokListByAngkatan() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    axios.get(`http://localhost:8000/api/kelompok/angkatan/${angkatanId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios
+      .get(`http://localhost:8000/api/kelompok/angkatan/${angkatanId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setKelompokList(res.data.data);
         if (res.data.data.length > 0) {
@@ -40,7 +41,7 @@ export default function KelompokListByAngkatan() {
   }, [angkatanId]);
 
   const actionBodyTemplate = (rowData: Kelompok) => (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       <button
         className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
         onClick={() => navigate(`/presensi/kelompok/${rowData.id}`)}
@@ -53,6 +54,13 @@ export default function KelompokListByAngkatan() {
         onClick={() => navigate(`/kelompok/edit/${rowData.id}`)}
       >
         Edit
+      </button>
+
+      <button
+        className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+        onClick={() => navigate(`/kelompok/${rowData.id}/kelola-anggota`)}
+      >
+        Kelola Anggota
       </button>
     </div>
   );
