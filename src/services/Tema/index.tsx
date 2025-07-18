@@ -21,7 +21,7 @@ export default function TemaPrimeTable() {
 
   const handleUpdate = (row: any) => {
     // Navigasi ke form edit
-    navigate(`/master/data-Tema/edit/${row.id}`);
+    navigate(`/assesment/tema/edit/${row.id}`);
   };
 
   const handleDelete = async (id: any) => {
@@ -45,7 +45,7 @@ export default function TemaPrimeTable() {
           label="Tambah Tema"
           icon="pi pi-plus"
           className="p-button-sm p-button-primary"
-          onClick={() => navigate("/master/data-Tema/tambah")}
+          onClick={() => navigate("/assesment/tema/tambah")}
         />
       </div>
 
@@ -76,9 +76,7 @@ export default function TemaPrimeTable() {
           body={(_rowData, { rowIndex }) => rowIndex + 1}
           style={{ width: '60px' }}
         />
-        <Column field="judul" header="Judul" />
-        <Column field="sumber" header="Sumber" />
-        <Column field="konten_Tema" header="Konten Tema" />
+        <Column field="nama" header="Nama Tema" />
         <Column 
           header="Aksi"
           body={(rowData) => (

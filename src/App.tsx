@@ -43,6 +43,9 @@ import AngkatanPage from "./pages/Angkatan";
 import FormCreateAngkatan from "./pages/Angkatan/TambahAngkatan";
 import FormEditAngkatan from "./pages/Angkatan/EditAngkatan";
 import FormCreateKurikulum from "./pages/Kurikulum/TambahKurikulum";
+import TemaPage from "./pages/Tema";
+import FormCreateTema from "./pages/Tema/TambahTema";
+import FormEditTema from "./pages/Tema/EditTema";
 
 export default function App() {
   return (
@@ -105,7 +108,9 @@ export default function App() {
         <Route path="/master/data-angkatan/tambah" element={<FormCreateAngkatan />} />
         <Route path="/master/data-angkatan/edit/:angkatanId" element={<FormEditAngkatan />} />
         <Route path="/kelompok/angkatan/:angkatanId" element={<KelompokAngkatanPage />} />
-
+        <Route path="/assesment/tema" element={<TemaPage />} />
+        <Route path="/assesment/tema/tambah" element={<FormCreateTema />} />
+        <Route path="/assesment/tema/edit/:temaId" element={<FormEditTema />} />
         <Route path="/kurikulum/tambah" element={<FormCreateKurikulum />} />
 
       </Route>
