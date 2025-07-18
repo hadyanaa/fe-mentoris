@@ -55,6 +55,7 @@ import PindahKelompokMentee from "./services/Kelompok/PindahKelompok";
 import KelompokAllPage from "./pages/Kelompok/KelompokAll";
 import HalamanAsessment from "./services/Asessment";
 import AssessmentByJenjang from "./services/Asessment/AsessmentJenjang";
+import TerimaKasih from "./services/Asessment/Terimakasih";
 
 export default function App() {
   return (
@@ -93,6 +94,7 @@ export default function App() {
         <Route path="/presensi/detail" element={<DetailPresensi />} />
          <Route path="/assesment/question" element={<HalamanAsessment />} />
          <Route path="/assessment/jenjang/:id" element={<AssessmentByJenjang/>} />
+         <Route path="/terimakasih" element={<TerimaKasih />} />
         
 
       </Route>

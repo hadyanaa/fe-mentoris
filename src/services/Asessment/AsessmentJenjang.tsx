@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -34,8 +35,12 @@ export default function AssessmentByJenjang() {
       setUserRole(role);
 
       if (role === "mentor" || role === "mentee") {
+        const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
         axios
-          .get("http://localhost:8000/api/periode-aktif")
+           .get("http://localhost:8000/api/periode-aktif", {
+              headers
+          })
           .then((res) => {
             setPeriode(res.data.periode);
           })
@@ -108,34 +113,42 @@ export default function AssessmentByJenjang() {
     setCurrentTemaIndex((prev) => prev + 1);
   };
 
-  const handleSubmit = async () => {
-    const semuaTerjawab = pertanyaanList.every((q) => jawaban[q.id] !== undefined);
-    if (!semuaTerjawab) {
-      Swal.fire("Gagal", "Mohon jawab semua pertanyaan sebelum mengirim.", "error");
-      return;
-    }
+ const handleSubmit = async () => {
+  const semuaTerjawab = pertanyaanList.every((q) => jawaban[q.id] !== undefined);
+  if (!semuaTerjawab) {
+    Swal.fire("Gagal", "Mohon jawab semua pertanyaan sebelum mengirim.", "error");
+    return;
+  }
 
-    try {
-      const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
+  try {
+    const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
 
-      const payload = {
-        jenjang_id: id,
-        periode,
-        jawaban: Object.entries(jawaban).map(([pertanyaan_id, nilai]) => ({
-          pertanyaan_id: parseInt(pertanyaan_id),
-          nilai,
-        })),
-      };
+    const payload = {
+      answers: Object.entries(jawaban).map(([question_id, nilai]) => ({
+        question_id: parseInt(question_id),
+        nilai,
+      })),
+    };
 
-      await axios.post("http://localhost:8000/api/assessment-submit", payload, { headers });
-      Swal.fire("Sukses", "Jawaban berhasil dikirim.", "success");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Submit error:", error);
-      Swal.fire("Error", "Terjadi kesalahan saat submit.", "error");
-    }
-  };
+    await axios.post("http://localhost:8000/api/assessment-answer", payload, { headers });
+
+   Swal.fire({
+  icon: "success",
+  title: "Terima kasih!",
+  text: "Jawaban berhasil dikirim.",
+  showConfirmButton: false,
+  timer: 2000
+}).then(() => {
+  navigate("/terimakasih");
+});
+
+  } catch (error) {
+    console.error("Submit error:", error);
+    Swal.fire("Error", "Terjadi kesalahan saat submit.", "error");
+  }
+};
+
 
   const currentTema = temaNames[currentTemaIndex];
   const pertanyaanTemaSaatIni = groupedByTema[currentTema] || [];
