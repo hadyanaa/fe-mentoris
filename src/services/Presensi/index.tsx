@@ -49,7 +49,9 @@ export default function PresensiIndex() {
   const goToKelompok = (angkatanId: number) => {
     navigate(`/kelompok/angkatan/${angkatanId}`);
   };
-
+const goToKelompokTerajin = () => {
+    navigate('/kelompok-terajin');
+  };
   // Ganti nama fungsi dan tipe file yang diizinkan
 const handleImportExcel = async (e: ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
@@ -105,21 +107,35 @@ const handleImportExcel = async (e: ChangeEvent<HTMLInputElement>) => {
               </label>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {angkatanList.map((angkatan) => (
-              <div
-                key={angkatan.id}
-                onClick={() => goToKelompok(angkatan.id)}
-                className="cursor-pointer bg-white border rounded-xl p-5 shadow hover:shadow-md transition-all hover:border-blue-500"
-              >
-                <h4 className="text-lg font-bold text-blue-600 mb-1">
-                  Angkatan {angkatan.nama}
-                </h4>
-                <p className="text-sm text-gray-500">Tahun: {angkatan.tahun}</p>
-                <p className="text-xs text-gray-400 mt-2">Klik untuk lihat kelompok</p>
-              </div>
-            ))}
-          </div>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  {/* Kartu "All" */}
+  <div
+  onClick={goToKelompokTerajin}
+    className="cursor-pointer bg-white border rounded-xl p-5 shadow hover:shadow-md transition-all hover:border-blue-500"
+  >
+    <h4 className="text-lg font-bold text-blue-600 mb-1">
+      All
+    </h4>
+    <p className="text-sm text-gray-500">Tahun: </p>
+    <p className="text-xs text-gray-400 mt-2">Klik untuk lihat kelompok</p>
+  </div>
+
+  {/* Daftar Angkatan */}
+  {angkatanList.map((angkatan) => (
+    <div
+      key={angkatan.id}
+      onClick={() => goToKelompok(angkatan.id)}
+      className="cursor-pointer bg-white border rounded-xl p-5 shadow hover:shadow-md transition-all hover:border-blue-500"
+    >
+      <h4 className="text-lg font-bold text-blue-600 mb-1">
+        Angkatan {angkatan.nama}
+      </h4>
+      <p className="text-sm text-gray-500">Tahun: {angkatan.tahun}</p>
+      <p className="text-xs text-gray-400 mt-2">Klik untuk lihat kelompok</p>
+    </div>
+  ))}
+</div>
+
         </>
       )}
 

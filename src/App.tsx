@@ -52,6 +52,10 @@ import FormTambahKelompok from "./services/Kelompok/CreateKelompok";
 import FormTambahKelompokPengguna from "./services/Kelompok/CreateKelompokPengguna";
 import PindahKelompokMentee from "./services/Kelompok/PindahKelompok";
 
+import KelompokAllPage from "./pages/Kelompok/KelompokAll";
+import HalamanAsessment from "./services/Asessment";
+import AssessmentByJenjang from "./services/Asessment/AsessmentJenjang";
+
 export default function App() {
   return (
     <>
@@ -87,6 +91,9 @@ export default function App() {
         <Route path="/berita" element={<BeritaPrimeTable />} />
         <Route path="/berita/:beritaId" element={<KelompokAngkatanPage />} />
         <Route path="/presensi/detail" element={<DetailPresensi />} />
+         <Route path="/assesment/question" element={<HalamanAsessment />} />
+         <Route path="/assessment/jenjang/:id" element={<AssessmentByJenjang/>} />
+        
 
       </Route>
 
@@ -120,6 +127,7 @@ export default function App() {
       <Route path="/kelompok/tambah" element={<FormTambahKelompok />} />
       <Route path="/kelompok-pengguna/:id" element={<FormTambahKelompokPengguna />} />
       <Route path="/kelompok/:id/kelola-anggota" element={<PindahKelompokMentee />} />
+       <Route path="/kelompok-terajin" element={<KelompokAllPage />} />
 
 
         <Route path="/assesment/tema" element={<TemaPage />} />

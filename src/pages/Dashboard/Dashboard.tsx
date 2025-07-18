@@ -207,7 +207,7 @@ export default function DashboardChart() {
         </tr>
       </thead>
       <tbody>
-        {data.kelompok_terajin.map((item, index) => (
+        {data.kelompok_terajin.slice(0, 5).map((item, index) => (
           <tr key={index} className="hover:bg-gray-50">
             <td className="p-2 border">{index + 1}</td>
             <td className="p-2 border">{item.nama_kelompok}</td>
@@ -218,6 +218,7 @@ export default function DashboardChart() {
     </table>
   </div>
 </div>
+
 
 
 

@@ -5,6 +5,7 @@ import {
   DocsIcon,
   GridIcon,
   HorizontaLDots,
+  InfoIcon,
   ListIcon,
   PageIcon,
   TableIcon,
@@ -55,6 +56,7 @@ const mentorNav: NavItem[] = [
     ],
   },
   { name: "Presensi", icon: <PageIcon />, path: "/presensi" },
+  { name: "Informasi", icon: <InfoIcon />, path: "/info" },
 ];
 const menteeNav: NavItem[] = [
   {
@@ -67,6 +69,7 @@ const menteeNav: NavItem[] = [
     icon: <TableIcon />,
     subItems: [{ name: "Assesment Questions", path: "/assesment/question" }],
   },
+  { name: "Informasi", icon: <InfoIcon />, path: "/info" },
  
 ];
 
